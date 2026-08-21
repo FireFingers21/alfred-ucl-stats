@@ -11,19 +11,21 @@ set -o extendedglob
 
 # Load Standings
 jq -cs \
+   --arg alfred_workflow_keyword "${alfred_workflow_keyword}" \
    --arg favTeam "$(iconv -f UTF-8-MAC -t UTF-8 <<< ${(L)favTeam})" \
    --arg icons_dir "${seasonDir}/icons" \
    --arg seasonYear "${seasonYear}" \
    --slurpfile nocDict "nocDict.json" \
 '{
     "variables": {
+        "keyword": $alfred_workflow_keyword,
         "icons_dir": $icons_dir,
         "seasonYear": $seasonYear
     },
     "skipknowledge": true,
 	"items": (if (length != 0) then
-		if (isempty(.[][]) | not) then .[][].items | map({
-			"title": "\(.rank)  \(if (.rankTrend == "UP") then "↑" elif (.rankTrend == "DOWN") then "↓" else "↔" end)  \(.team.translations.displayName.EN)  \($nocDict[].emoji."\(.team.countryCode)")",
+		if (isempty(.[][]) | not) then .[][].items | map(((.team.translations.displayName.EN|ascii_downcase) == $favTeam) as $isFavourite | {
+			"title": "\(.rank)  \(if (.rankTrend == "UP") then "↑" elif (.rankTrend == "DOWN") then "↓" else "↔" end)  \(.team.translations.displayName.EN)  \($nocDict[].emoji."\(.team.countryCode)")  \(if ((.team.translations.displayName.EN|ascii_downcase) == $favTeam) then "★" else "" end)",
 			"subtitle": "Pl: \(.played)    [ W: \(.won)  D: \(.drawn)  L: \(.lost) ]    [ GF: \(.goalsFor)  GA: \(.goalsAgainst)  GD: \(.goalDifference | (if . > 0 then "+\(.)" else . end)) ]    Pts: \(.points)",
 			"match": [
                 .rank, .team.translations.displayName.EN, .team.translations.countryName.EN,
@@ -31,9 +33,11 @@ jq -cs \
             ] | map(select(.)) | join(" "),
 			"icon": { "path": "\($icons_dir)/\(.team.id).png" },
 			"text": { "copy": .team.translations.displayName.EN },
-			"variables": { "teamId": .team.id, "teamName": .team.translations.displayName.EN, "country": "\($nocDict[].emoji."\(.team.countryCode)") \(.team.countryCode)", "seq": .rank }
+			"variables": { "favTeamNew": .team.translations.displayName.EN, "teamId": .team.id, "teamName": .team.translations.displayName.EN, "country": "\($nocDict[].emoji."\(.team.countryCode)") \(.team.countryCode)", "seq": .rank },
+			"mods": {
+			    "cmd+shift": {"subtitle": "⇧⌘↩ \(if ($isFavourite) then "Unset" else "Set" end) Favourite Team"}
+			}
 		}) | [(.[] | select((.variables.seq != 1) and (.variables.teamName|ascii_downcase) == $favTeam)) | (.match |= "")] + .
-		| [(.[] | if ((.variables.teamName|ascii_downcase) == $favTeam) then (.title |= .+"  ★") end)]
 		else
 			[{
 				"title": "No Data Available",

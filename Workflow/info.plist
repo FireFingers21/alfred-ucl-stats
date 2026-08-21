@@ -100,6 +100,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>37E19E49-8252-4657-A111-DDDE40E1A18C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>FB68FD73-86DF-4FE9-AB30-B9734D2C0DC2</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>4F7CABD6-D623-41A1-BFEF-8DA9405D12EA</key>
 		<array>
 			<dict>
@@ -115,6 +128,16 @@
 		</array>
 		<key>7FA9BFFC-366D-4872-9979-8DBF3A13B495</key>
 		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A8C7B745-AC73-4180-81DC-B642E31661B1</string>
+				<key>modifiers</key>
+				<integer>1179648</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<true/>
+			</dict>
 			<dict>
 				<key>destinationuid</key>
 				<string>2019B0F3-9D0B-4B28-9A24-51A8E3BAC555</string>
@@ -172,6 +195,21 @@
 				<false/>
 			</dict>
 		</array>
+		<key>A8C7B745-AC73-4180-81DC-B642E31661B1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>37E19E49-8252-4657-A111-DDDE40E1A18C</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>EF4842D8-C04F-434D-B1FF-3D8F0B6126C5</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>CB63FA25-D2E0-45C0-832E-929254888FDB</key>
 		<array>
 			<dict>
@@ -222,6 +260,88 @@
 	<string>UEFA Champions League Stats</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>ObjC.import("stdlib")
+
+if ($.getenv("favTeamNew") === $.getenv("favTeam")) {
+	Application("com.runningwithcrayons.Alfred").setConfiguration("favTeam", {
+		toValue: "",
+		inWorkflow: $.getenv("alfred_workflow_bundleid")
+	})
+} else {
+	Application("com.runningwithcrayons.Alfred").setConfiguration("favTeam", {
+		toValue: $.getenv("favTeamNew"),
+		inWorkflow: $.getenv("alfred_workflow_bundleid")
+	})
+}</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>7</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>37E19E49-8252-4657-A111-DDDE40E1A18C</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:favTeamNew}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>1</integer>
+						<key>matchstring</key>
+						<string></string>
+						<key>outputlabel</key>
+						<string></string>
+						<key>uid</key>
+						<string>EF4842D8-C04F-434D-B1FF-3D8F0B6126C5</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string></string>
+				<key>hideelse</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>A8C7B745-AC73-4180-81DC-B642E31661B1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{var:keyword} </string>
+				<key>leftcursor</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.showalfred</string>
+			<key>uid</key>
+			<string>FB68FD73-86DF-4FE9-AB30-B9734D2C0DC2</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -286,7 +406,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>{var:ucl_keyword}</string>
+				<string>{var:standings_keyword}</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -356,6 +476,25 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>externaltriggerid</key>
+				<string>getStats</string>
+				<key>passinputasargument</key>
+				<false/>
+				<key>passvariables</key>
+				<true/>
+				<key>workflowbundleid</key>
+				<string>self</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.callexternaltrigger</string>
+			<key>uid</key>
+			<string>BE18758B-5A82-4EFF-8EF6-2371B7E128E1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
@@ -376,25 +515,6 @@
 			<string>F14E3EF2-D711-4289-A92A-73C17F07CF8A</string>
 			<key>version</key>
 			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>externaltriggerid</key>
-				<string>getStats</string>
-				<key>passinputasargument</key>
-				<false/>
-				<key>passvariables</key>
-				<true/>
-				<key>workflowbundleid</key>
-				<string>self</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.callexternaltrigger</string>
-			<key>uid</key>
-			<string>BE18758B-5A82-4EFF-8EF6-2371B7E128E1</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -518,7 +638,7 @@
 			<key>config</key>
 			<dict>
 				<key>argument</key>
-				<string>{var:ucl_keyword} </string>
+				<string>{var:standings_keyword} </string>
 				<key>leftcursor</key>
 				<false/>
 			</dict>
@@ -598,7 +718,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>{var:ucl_keyword}::||{var:ucl_keyword} ::</string>
+				<string>{var:standings_keyword}::||{var:standings_keyword} ::</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -707,6 +827,7 @@ View the latest [UEFA Champions League](https://www.uefa.com/uefachampionsleague
 
 * &lt;kbd&gt;↩&lt;/kbd&gt; View Team Stats in Alfred.
 * &lt;kbd&gt;⌘&lt;/kbd&gt;&lt;kbd&gt;↩&lt;/kbd&gt; Open Team Stats in Browser.
+* &lt;kbd&gt;⇧&lt;/kbd&gt;&lt;kbd&gt;⌘&lt;/kbd&gt;&lt;kbd&gt;↩&lt;/kbd&gt; Set/Unset Favourite Team.
 
 Additional Team Stats can be viewed directly within Alfred. This includes Goals, Attempts, Distribution, Attacking, Defending, Goalkeeping, and Disciplinary Stats.
 
@@ -731,7 +852,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>790</real>
 			<key>ypos</key>
-			<real>235</real>
+			<real>310</real>
 		</dict>
 		<key>2019B0F3-9D0B-4B28-9A24-51A8E3BAC555</key>
 		<dict>
@@ -740,14 +861,14 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>345</real>
 			<key>ypos</key>
-			<real>50</real>
+			<real>125</real>
 		</dict>
 		<key>21AA0846-593F-4C61-AE67-E0211DA2546A</key>
 		<dict>
 			<key>xpos</key>
 			<real>580</real>
 			<key>ypos</key>
-			<real>415</real>
+			<real>490</real>
 		</dict>
 		<key>241A366E-E084-4CBD-B319-632AF3CF787B</key>
 		<dict>
@@ -756,7 +877,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>315</real>
 			<key>ypos</key>
-			<real>385</real>
+			<real>460</real>
 		</dict>
 		<key>3239E521-04A1-4420-B4CA-48596688FD31</key>
 		<dict>
@@ -765,14 +886,25 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>180</real>
 			<key>ypos</key>
-			<real>540</real>
+			<real>615</real>
 		</dict>
 		<key>36BC2A5D-75B1-48EA-8B8E-465794BFE78D</key>
 		<dict>
 			<key>xpos</key>
 			<real>670</real>
 			<key>ypos</key>
-			<real>415</real>
+			<real>490</real>
+		</dict>
+		<key>37E19E49-8252-4657-A111-DDDE40E1A18C</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>10</integer>
+			<key>note</key>
+			<string>Set Favourite Team</string>
+			<key>xpos</key>
+			<real>630</real>
+			<key>ypos</key>
+			<real>15</real>
 		</dict>
 		<key>4700133B-A9CC-4AC2-A73F-FF3D0F475FE8</key>
 		<dict>
@@ -781,7 +913,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>450</real>
 			<key>ypos</key>
-			<real>15</real>
+			<real>90</real>
 		</dict>
 		<key>4F7CABD6-D623-41A1-BFEF-8DA9405D12EA</key>
 		<dict>
@@ -790,7 +922,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>30</real>
 			<key>ypos</key>
-			<real>30</real>
+			<real>105</real>
 		</dict>
 		<key>7FA9BFFC-366D-4872-9979-8DBF3A13B495</key>
 		<dict>
@@ -801,7 +933,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>180</real>
 			<key>ypos</key>
-			<real>30</real>
+			<real>105</real>
 		</dict>
 		<key>9C7EF758-C860-4275-AC49-B8DE4B019A03</key>
 		<dict>
@@ -812,7 +944,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>630</real>
 			<key>ypos</key>
-			<real>125</real>
+			<real>200</real>
 		</dict>
 		<key>9D2BBEA5-0035-411B-80E9-722420550411</key>
 		<dict>
@@ -821,7 +953,16 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>450</real>
 			<key>ypos</key>
-			<real>385</real>
+			<real>460</real>
+		</dict>
+		<key>A8C7B745-AC73-4180-81DC-B642E31661B1</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>10</integer>
+			<key>xpos</key>
+			<real>345</real>
+			<key>ypos</key>
+			<real>45</real>
 		</dict>
 		<key>BE18758B-5A82-4EFF-8EF6-2371B7E128E1</key>
 		<dict>
@@ -830,7 +971,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>790</real>
 			<key>ypos</key>
-			<real>125</real>
+			<real>200</real>
 		</dict>
 		<key>CB63FA25-D2E0-45C0-832E-929254888FDB</key>
 		<dict>
@@ -839,7 +980,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>490</real>
 			<key>ypos</key>
-			<real>265</real>
+			<real>340</real>
 		</dict>
 		<key>D152973B-1A3C-423C-A1E7-12B72B2B19E2</key>
 		<dict>
@@ -850,7 +991,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>30</real>
 			<key>ypos</key>
-			<real>535</real>
+			<real>610</real>
 		</dict>
 		<key>D4C5F95B-CA8E-4CE6-B248-3600C8E276CC</key>
 		<dict>
@@ -859,7 +1000,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>315</real>
 			<key>ypos</key>
-			<real>535</real>
+			<real>610</real>
 		</dict>
 		<key>F14E3EF2-D711-4289-A92A-73C17F07CF8A</key>
 		<dict>
@@ -870,7 +1011,16 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>xpos</key>
 			<real>450</real>
 			<key>ypos</key>
-			<real>125</real>
+			<real>200</real>
+		</dict>
+		<key>FB68FD73-86DF-4FE9-AB30-B9734D2C0DC2</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>10</integer>
+			<key>xpos</key>
+			<real>790</real>
+			<key>ypos</key>
+			<real>45</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -894,7 +1044,7 @@ Configure the [Hotkey](https://www.alfredapp.com/help/workflows/triggers/hotkey/
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
-			<string>ucl_keyword</string>
+			<string>standings_keyword</string>
 		</dict>
 		<dict>
 			<key>config</key>
