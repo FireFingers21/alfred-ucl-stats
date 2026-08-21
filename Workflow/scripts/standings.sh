@@ -7,23 +7,18 @@ seasonDir="${alfred_workflow_data}/${seasonYear}"
 # Auto Update
 set -o extendedglob
 [[ -f ${alfred_workflow_data}/*/*(#i)standings.json(#qNY1) ]] \
-&& [[ "$(date -r "${alfred_workflow_data}" +%s)" -lt "$(date -v -"${autoUpdate}"M +%s)" || ! -d "${alfred_workflow_data}/${seasonYear}" ]] && reload=$(./scripts/reload.sh)
-
-# Get season files
-standings_file="${seasonDir}/standings.json"
-icons_dir="${seasonDir}/icons"
+&& [[ "$(date -r "${alfred_workflow_data}" +%s)" -lt "$(date -v -"${autoUpdate}"M +%s)" || ! -d "${seasonDir}" ]] && reload=$(./scripts/reload.sh)
 
 # Load Standings
 jq -cs \
-   --arg icons_dir "${icons_dir}" \
    --arg favTeam "${(L)favTeam}" \
+   --arg icons_dir "${seasonDir}/icons" \
+   --arg seasonYear "${seasonYear}" \
    --slurpfile nocDict "nocDict.json" \
 '{
     "variables": {
-        "seasonYear": "'${seasonYear}'",
-        "standings_file": "'${standings_file}'",
-        "seasonDir": "'${seasonDir}'",
-        "icons_dir": "'${icons_dir}'"
+        "icons_dir": $icons_dir,
+        "seasonYear": $seasonYear
     },
     "skipknowledge": true,
 	"items": (if (length != 0) then
@@ -46,4 +41,4 @@ jq -cs \
 			"arg": "reload"
 		}]
 	end)
-}' "${standings_file}"
+}' "${seasonDir}/standings.json"
