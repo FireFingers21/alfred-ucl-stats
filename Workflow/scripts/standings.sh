@@ -22,7 +22,7 @@ jq -cs \
     },
     "skipknowledge": true,
 	"items": (if (length != 0) then
-		.[][].items | map({
+		if (isempty(.[][]) | not) then .[][].items | map({
 			"title": "\(.rank)  \(if (.rankTrend == "UP") then "↑" elif (.rankTrend == "DOWN") then "↓" else "↔" end)  \(.team.translations.displayName.EN)  \($nocDict[].emoji."\(.team.countryCode)")",
 			"subtitle": "Pl: \(.played)    [ W: \(.won)  D: \(.drawn)  L: \(.lost) ]    [ GF: \(.goalsFor)  GA: \(.goalsAgainst)  GD: \(.goalDifference | (if . > 0 then "+\(.)" else . end)) ]    Pts: \(.points)",
 			"match": [
@@ -34,6 +34,13 @@ jq -cs \
 			"variables": { "teamId": .team.id, "teamName": .team.translations.displayName.EN, "country": "\($nocDict[].emoji."\(.team.countryCode)") \(.team.countryCode)", "seq": .rank }
 		}) | [(.[] | select((.variables.seq != 1) and (.variables.teamName|ascii_downcase) == $favTeam)) | (.match |= "")] + .
 		| [(.[] | if ((.variables.teamName|ascii_downcase) == $favTeam) then (.title |= .+"  ★") end)]
+		else
+			[{
+				"title": "No Data Available",
+				"valid": false,
+				"mods": {"cmd":{ "subtitle":"", "valid":false }}
+			}]
+		end
 	else
 		[{
 			"title": "No Standings Found",
