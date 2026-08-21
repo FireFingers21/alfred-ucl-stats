@@ -11,7 +11,7 @@ set -o extendedglob
 
 # Load Standings
 jq -cs \
-   --arg favTeam "${(L)favTeam}" \
+   --arg favTeam "$(iconv -f UTF-8-MAC -t UTF-8 <<< ${(L)favTeam})" \
    --arg icons_dir "${seasonDir}/icons" \
    --arg seasonYear "${seasonYear}" \
    --slurpfile nocDict "nocDict.json" \
