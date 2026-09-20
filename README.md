@@ -2,6 +2,8 @@
 
 View the latest UEFA Champions League standings & stats in Alfred
 
+[⤓ Install from the Alfred Gallery](https://alfred.app/workflows/firefingers21/uefa-champions-league-stats/)
+
 ## Usage
 
 View the latest [UEFA Champions League](https://www.uefa.com/uefachampionsleague/) standings via the `ucl` keyword. Type to filter by Team, Rank, Country, or Qualified.
