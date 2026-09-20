@@ -27,14 +27,13 @@ fi
 
 # Format Stats to Markdown
 if [[ -f "${standings_file}" ]]; then
-    mdOutput=$(jq -crs --arg teamId "${teamId}" --arg country "${country}" --arg icons_dir "${icons_dir}" \
-    '(.[0][0].items[] | select(.team.id == $teamId)) as $standings |
-    ([.[1,2][] | select(.teamId == $teamId).statistics] | add | from_entries |
+    mdOutput=$(jq -crs --arg teamId "${teamId}" --arg teamNameOfficial "${teamNameOfficial}" --arg country "${country}" --arg icons_dir "${icons_dir}" \
+    '([.[][] | select(.teamId == $teamId).statistics] | add | from_entries |
     40 as $spaces |
         "![Team Logo](\($icons_dir)/\($teamId)small.png)\n",
-        "# "+$standings.team.translations.displayOfficialName.EN,
+        "# "+$teamNameOfficial,
         $country,
-        "\n**Matches Played:** \($standings.played)      ·      **Won:** \($standings.won)   ·   **Drawn:** \($standings.drawn)   ·   **Lost:** \($standings.lost)",
+        "\n**Matches Played:** \(.matches_appearance)      ·      **Won:** \(.matches_win)   ·   **Drawn:** \(.matches_draw)   ·   **Lost:** \(.matches_loss)",
         "\n***\n\n### Goals\n\n```",
         ("Goals:"|.+" "*($spaces-length))+(.goals),
         ("Right foot:"|.+" "*($spaces-length))+(.goals_scored_with_right),
@@ -83,7 +82,7 @@ if [[ -f "${standings_file}" ]]; then
         ("Yellow cards:"|.+" "*($spaces-length))+(.yellow_cards),
         ("Red cards:"|.+" "*($spaces-length))+(.red_cards),
         "```"
-    )' "${standings_file}" "${alfred_workflow_data}/${seasonYear}"/stats*.json | sed 's/\"/\\"/g')
+    )' "${alfred_workflow_data}/${seasonYear}"/stats*.json | sed 's/\"/\\"/g')
 else
     mdOutput='![Team Logo]('${icons_dir}'/'${teamId}'small.png)\n# '${teamName}'\n\n**Games Played:** N/A      ·      **Goals:** N/A      ·      **Goals Conceded:** N/A\n***\n*No Team Stats available*'
 fi

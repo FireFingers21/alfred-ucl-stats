@@ -15,12 +15,12 @@ curl --parallel --max-time 10 \
     -sf --compressed \
     --etag-compare "${seasonDir}/stats1.etag" \
     --etag-save "${seasonDir}/stats1.etag.tmp" \
-    -L "https://compstats.uefa.com/v1/team-ranking?competitionId=1&limit=50&offset=0&seasonYear=${seasonYear}&stats=goals%2Cgoals_scored_with_right%2Cgoals_scored_with_left%2Cgoals_scored_head%2Cgoals_scored_other%2Cgoals_scored_inside_penalty_area%2Cgoals_scored_outside_penalty_area%2Cpenalty_scored%2Cattempts%2Cattempts_on_target%2Cattempts_off_target%2Cattempts_blocked%2Cpasses_accuracy%2Cpasses_attempted%2Cpasses_completed%2Cball_possession%2Ccross_accuracy%2Ccross_attempted%2Ccross_completed%2Cfree_kick%2Cattacks%2Cassists%2Ccorners%2Coffsides%2Cdribbling%2Crecovered_ball%2Ctackles%2Ctackles_won%2Ctackles_lost%2Cclearance_attempted" -o "${seasonDir}/stats1.json" \
+    -L "https://compstats.uefa.com/v2/team-ranking?competitionId=1&limit=50&offset=0&phase=TOURNAMENT&seasonYear=${seasonYear}&stats=matches_appearance%2Cmatches_win%2Cmatches_draw%2Cmatches_loss%2Cgoals%2Cgoals_scored_with_right%2Cgoals_scored_with_left%2Cgoals_scored_head%2Cgoals_scored_other%2Cgoals_scored_inside_penalty_area%2Cgoals_scored_outside_penalty_area%2Cpenalty_scored%2Cattempts%2Cattempts_on_target%2Cattempts_off_target%2Cattempts_blocked%2Cpasses_accuracy%2Cpasses_attempted%2Cpasses_completed%2Cball_possession%2Ccross_accuracy%2Ccross_attempted%2Ccross_completed%2Cfree_kick%2Cattacks%2Cassists%2Ccorners%2Coffsides%2Cdribbling%2Crecovered_ball" -o "${seasonDir}/stats1.json" \
     --next \
     -sf --compressed \
     --etag-compare "${seasonDir}/stats2.etag" \
     --etag-save "${seasonDir}/stats2.etag.tmp" \
-    -L "https://compstats.uefa.com/v1/team-ranking?competitionId=1&limit=50&offset=0&seasonYear=${seasonYear}&stats=saves%2Cgoals_conceded%2Cown_goal_conceded%2Csaves_on_penalty%2Cclean_sheet%2Cpunches%2Cfouls_committed%2Cfouls_suffered%2Cyellow_cards%2Cred_cards" -o "${seasonDir}/stats2.json" \
+    -L "https://compstats.uefa.com/v2/team-ranking?competitionId=1&limit=50&offset=0&phase=TOURNAMENT&seasonYear=${seasonYear}&stats=tackles%2Ctackles_won%2Ctackles_lost%2Cclearance_attempted%2Csaves%2Cgoals_conceded%2Cown_goal_conceded%2Csaves_on_penalty%2Cclean_sheet%2Cpunches%2Cfouls_committed%2Cfouls_suffered%2Cyellow_cards%2Cred_cards" -o "${seasonDir}/stats2.json" \
 && downloadStatus=1
 # Update/Delete etag files
 for etag_tmp in ${seasonDir}/*.etag.tmp(N); do

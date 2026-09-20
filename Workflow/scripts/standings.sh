@@ -33,7 +33,7 @@ jq -cs \
             ] | map(select(.)) | join(" "),
 			"icon": { "path": "\($icons_dir)/\(.team.id).png" },
 			"text": { "copy": .team.translations.displayName.EN },
-			"variables": { "favTeamNew": .team.translations.displayName.EN, "teamId": .team.id, "teamName": .team.translations.displayName.EN, "country": "\($nocDict[].emoji."\(.team.countryCode)") \(.team.countryCode)", "seq": .rank },
+			"variables": { "favTeamNew": .team.translations.displayName.EN, "teamId": .team.id, "teamName": .team.translations.displayName.EN, "teamNameOfficial": .team.translations.displayOfficialName.EN, "country": "\($nocDict[].emoji."\(.team.countryCode)") \(.team.countryCode)", "seq": .rank },
 			"mods": {
 			    "cmd+shift": {"subtitle": "⇧⌘↩ \(if ($isFavourite) then "Unset" else "Set" end) Favourite Team"}
 			}
