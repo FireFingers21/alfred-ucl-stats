@@ -2,10 +2,6 @@
 
 View the latest UEFA Champions League standings & stats in Alfred
 
-## Setup
-
-This workflow requires [jq](https://jqlang.github.io/jq/) to function, which comes preinstalled on macOS 15 Sequoia and later.
-
 ## Usage
 
 View the latest [UEFA Champions League](https://www.uefa.com/uefachampionsleague/) standings via the `ucl` keyword. Type to filter by Team, Rank, Country, or Qualified.
