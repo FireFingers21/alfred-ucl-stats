@@ -28,7 +28,7 @@ jq -cs \
 			"title": "\(.rank)  \(if (.rankTrend == "UP") then "↑" elif (.rankTrend == "DOWN") then "↓" else "↔" end)  \(.team.translations.displayName.EN)  \($nocDict[].emoji."\(.team.countryCode)")  \(if ((.team.translations.displayName.EN|ascii_downcase) == $favTeam) then "★" else "" end)",
 			"subtitle": "Pl: \(.played)    [ W: \(.won)  D: \(.drawn)  L: \(.lost) ]    [ GF: \(.goalsFor)  GA: \(.goalsAgainst)  GD: \(.goalDifference | (if . > 0 then "+\(.)" else . end)) ]    Pts: \(.points)",
 			"match": [
-                .rank, .team.translations.displayName.EN, .team.translations.countryName.EN,
+                .rank, (.team.translations | .displayName, .displayOfficialName, .countryName | .EN),
                 (if (.qualified) then "qualified" else "" end)
             ] | map(select(.)) | join(" "),
 			"icon": { "path": "\($icons_dir)/\(.team.id).png" },
